@@ -142,5 +142,22 @@ public class Evento {
         }   
     }
     
+
+    public String postiPrenotatiDisponibili() {
+
+        int postiDisponibili=postiTotale-postiPrenotati;
+
+        return "Evento [titolo=" + titolo 
+                + ", data=" + data 
+                + ", postiTotale=" + postiTotale 
+                + ", postiPrenotati="+ postiPrenotati 
+                + ", postiDisponibili="+ postiDisponibili 
+                + "]";
+    }
+
+    
+    
+
+
    
 }
