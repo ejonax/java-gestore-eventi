@@ -9,9 +9,9 @@ public class Evento {
     private int postiTotale;
     private int postiPrenotati;
 
+    //costrutore
     public Evento(String titolo,String data,int postiTotale) {
 
-        // DateTimeFormatter class Object
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.now();                                           
         String nowDate = localDate.format(dateFormatter);  
@@ -42,24 +42,19 @@ public class Evento {
     static Boolean compareDates(String data1, String data2){
     
      Boolean dataPassata= false;
-     // DateTimeFormatter class Object
+     
      DateTimeFormatter dataObject = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-     // Parsing the dates
      LocalDate ldData1 = LocalDate.parse(data1, dataObject);
      LocalDate ldData2 = LocalDate.parse(data2, dataObject);
-     // Checking for equal case
-     if (ldData1.isEqual(ldData2))
+     
+    if (ldData1.isEqual(ldData2))
          System.out.println("Le date sono uguali");
-     // Checking for after case
-     else if (ldData1.isAfter(ldData2))
+    else if (ldData1.isAfter(ldData2))
          System.out.println("La data:" + ldData1 + " viene dopo la data " + ldData2);
-     // Checking for before case
-     else if (ldData1.isBefore(ldData2))
-     {
+    else if (ldData1.isBefore(ldData2)){
          System.out.println("La data:" + ldData1 + " viene prima la data " + ldData2);
          dataPassata=true;
-     }
+        }
       
     return dataPassata;
 
