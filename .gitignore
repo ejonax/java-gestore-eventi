@@ -1,0 +1,4 @@
+.vscode/settings.json
+bin/*.class
+.DS_STORE
+src/Date6.java
