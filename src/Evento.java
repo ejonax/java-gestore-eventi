@@ -10,49 +10,53 @@ public class Evento {
     private int postiPrenotati;
 
     //costrutore
-    public Evento(String titolo,String data,int postiTotale) {
+    public Evento(String titolo,String data,int postiTotale) throws Exception {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.now();                                           
         String nowDate = localDate.format(dateFormatter);  
-        this.data=data;
-        //data
-       if(compareDates(this.data,nowDate)){
-             System.out.println("La data dell'evento: " + this.data + " è una data passata e l'evento non può crearsi.");
-       }else {
-              System.out.println("La data dell'evento: " + this.data + " è una data futura, l'evento può avere luogo.");
-       }
-
-       //titolo
+      
+        //titolo
        if (titolo.trim().isEmpty()){
-        System.out.println("Per favore inserisci un titolo per l'evento.");
+        //System.out.println("Per favore inserisci un titolo per l'evento.");
+           throw new Exception("Per favore inserisci un titolo per l'evento.");
        }else this.titolo=titolo;
     
-       //postiPrenotati
-        postiPrenotati=0;
+        //data
+       if(compareDates(data,nowDate)){
+             //System.out.println("La data dell'evento: " + this.data + " è una data passata e l'evento non può crearsi.");
+             throw new Exception("La data inserita è una data passata e l'evento non può crearsi.");
+       }else this.data=data;
+       
 
         //postiTotale
         if (postiTotale<=0){
-            System.out.println("Per favore scegli un numero maggiore di 0 per il totale dei posti dell'evento.");
+            //System.out.println("Per favore scegli un numero maggiore di 0 per il totale dei posti dell'evento.");
+            throw new Exception("Per favore scegli un numero maggiore di 0 per il totale dei posti dell'evento.");
         } else this.postiTotale = postiTotale;
+
+         //postiPrenotati
+         postiPrenotati=0;
         
     
     }
 
     static Boolean compareDates(String data1, String data2){
     
-     Boolean dataPassata= false;
+     Boolean dataPassata=false;
      
      DateTimeFormatter dataObject = DateTimeFormatter.ofPattern("dd/MM/yyyy");
      LocalDate ldData1 = LocalDate.parse(data1, dataObject);
      LocalDate ldData2 = LocalDate.parse(data2, dataObject);
      
     if (ldData1.isEqual(ldData2))
-         System.out.println("Le date sono uguali");
+        // System.out.println("Le date sono uguali");
+        dataPassata=false;
     else if (ldData1.isAfter(ldData2))
-         System.out.println("La data:" + ldData1 + " viene dopo la data " + ldData2);
+         //System.out.println("La data:" + ldData1 + " viene dopo la data " + ldData2);
+         dataPassata=false;
     else if (ldData1.isBefore(ldData2)){
-         System.out.println("La data:" + ldData1 + " viene prima la data " + ldData2);
+        // System.out.println("La data:" + ldData1 + " viene prima la data " + ldData2);
          dataPassata=true;
         }
       
@@ -65,10 +69,11 @@ public class Evento {
         return titolo;
     }
 
-    public void setTitolo(String titolo) {
+    public void setTitolo(String titolo) throws Exception {
          
        if(titolo.trim().isEmpty()){
-          System.out.println("Per favore inserisci un titolo per l'evento.");
+          //System.out.println("Per favore inserisci un titolo per l'evento.");
+          throw new Exception("Per favore inserisci un titolo per l'evento.");
        }else
            this.titolo=titolo;
     }
@@ -77,18 +82,19 @@ public class Evento {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(String data) throws Exception {
        
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.now();                                           
         String nowDate = localDate.format(dateFormatter);  
    
         if(compareDates(data,nowDate)){
-            System.out.println("La nuova data dell'evento: " + data + " è una data passata e l'evento non può crearsi.");
+            //System.out.println("La nuova data dell'evento: " + data + " è una data passata e l'evento non può crearsi.");
+            throw new Exception("La nuova data dell'evento è una data passata, l'evento non si può modificare.");
         }else {
             //solo se la nuova data è una data futura di oggi
             this.data = data;
-            System.out.println("La nuova data dell'evento: " + data + " è una data futura, l'evento può avere luogo.");
+            //System.out.println("La nuova data dell'evento: " + data + " è una data futura, l'evento può avere luogo.");
         }
     }
 
@@ -112,7 +118,7 @@ public class Evento {
         return sb.toString();
     }
 
-   public void prenota(){
+   public void prenota() throws Exception{
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.now();                                           
         String nowDate = localDate.format(dateFormatter);  
@@ -124,11 +130,11 @@ public class Evento {
         if (compareDates(nowDate, eventDate) && postiDisponibili>0 ){
             this.postiPrenotati++;
         }else {
-            System.out.println("Non si può aggiungere un nuovo posto di prenotazione.");
+            throw new Exception("Non si può aggiungere un nuovo posto di prenotazione");
         }
    }
 
-   public void disdici(){
+   public void disdici() throws  Exception{
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.now();                                           
         String nowDate = localDate.format(dateFormatter);  
@@ -138,7 +144,7 @@ public class Evento {
         if (compareDates(nowDate, eventDate) && this.getPostiPrenotati()>0 ){
             this.postiPrenotati--;
         }else {
-            System.out.println("Non si può disdire nessun posto prenotato");
+            throw new Exception("Non si può disdire nessun posto prenotato");
         }   
     }
     
@@ -155,9 +161,4 @@ public class Evento {
                 + "]";
     }
 
-    
-    
-
-
-   
 }
