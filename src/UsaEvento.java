@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class UsaEvento {
@@ -32,11 +34,14 @@ public class UsaEvento {
     System.out.println("Per favore inserisci una data per l'evento che vuoi creare usando il formato dd/mm/yyyy");
     String dataEvento=scan.nextLine();
 
+    LocalDate dataEventoFormatatta;
+    dataEventoFormatatta= LocalDate.parse(dataEvento, DateTimeFormatter.ofPattern("dd/MM/yyyy")); 
+
     System.out.println("Per favore inserisci un totale dei posti per l'evento che vuoi creare");
     int postiTotale=scan.nextInt();
 
     try {
-        Evento eventoPrimo=new Evento(titolo, dataEvento,postiTotale);  
+        Evento eventoPrimo=new Evento(titolo, dataEventoFormatatta,postiTotale);  
         System.out.println(eventoPrimo.toString());
         //Evento eventoPrimo=new Evento("Matrimonio", "22/12/2025", 250);
 
@@ -47,11 +52,12 @@ public class UsaEvento {
        // eventoPrimo.setTitolo(" ");//non cambia, throws Exception 
         System.out.println(eventoPrimo.toString());
 
-        eventoPrimo.setData("22/11/2025");
+        
+        eventoPrimo.setData(LocalDate.parse("22/11/2025", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         System.out.println(eventoPrimo.toString());//cambia
 
-       // eventoPrimo.setData("22/11/2024");//non cambia, throws Exception
-        System.out.println(eventoPrimo.toString());
+       //eventoPrimo.setData(LocalDate.parse("22/11/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        System.out.println(eventoPrimo.toString());//non cambia, throws Exception
 
           /* STEP 2 - points 2., 3. */
     

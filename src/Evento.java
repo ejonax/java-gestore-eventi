@@ -1,38 +1,35 @@
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Evento {
 
     private String titolo;
-    private String data;
+    private LocalDate data;
     private int postiTotale;
     private int postiPrenotati;
 
     //costrutore
-    public Evento(String titolo,String data,int postiTotale) throws Exception {
+    public Evento(String titolo,LocalDate data,int postiTotale) throws Exception {
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDate = LocalDate.now();                                           
-        String nowDate = localDate.format(dateFormatter);  
+        LocalDate nowDate = LocalDate.now();                                           
       
         //titolo
        if (titolo.trim().isEmpty()){
-        //System.out.println("Per favore inserisci un titolo per l'evento.");
-           throw new Exception("Per favore inserisci un titolo per l'evento.");
+          //System.out.println("Per favore inserisci un titolo per l'evento.");
+           throw new IllegalArgumentException("Per favore inserisci un titolo per l'evento.");
        }else this.titolo=titolo;
     
         //data
-       if(compareDates(data,nowDate)){
+       if(dataPassata(nowDate,data)){
              //System.out.println("La data dell'evento: " + this.data + " è una data passata e l'evento non può crearsi.");
-             throw new Exception("La data inserita è una data passata e l'evento non può crearsi.");
+             throw new IllegalArgumentException("La data inserita è una data passata e l'evento non può crearsi.");
        }else this.data=data;
        
 
         //postiTotale
         if (postiTotale<=0){
             //System.out.println("Per favore scegli un numero maggiore di 0 per il totale dei posti dell'evento.");
-            throw new Exception("Per favore scegli un numero maggiore di 0 per il totale dei posti dell'evento.");
+            throw new IllegalArgumentException("Per favore scegli un numero maggiore di 0 per il totale dei posti dell'evento.");
         } else this.postiTotale = postiTotale;
 
          //postiPrenotati
@@ -41,28 +38,22 @@ public class Evento {
     
     }
 
-    static Boolean compareDates(String data1, String data2){
+    static Boolean dataPassata(LocalDate firstDate, LocalDate secondDate){
     
-     Boolean dataPassata=false;
-     
-     DateTimeFormatter dataObject = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-     LocalDate ldData1 = LocalDate.parse(data1, dataObject);
-     LocalDate ldData2 = LocalDate.parse(data2, dataObject);
-     
-    if (ldData1.isEqual(ldData2))
-        // System.out.println("Le date sono uguali");
-        dataPassata=false;
-    else if (ldData1.isAfter(ldData2))
-         //System.out.println("La data:" + ldData1 + " viene dopo la data " + ldData2);
-         dataPassata=false;
-    else if (ldData1.isBefore(ldData2)){
-        // System.out.println("La data:" + ldData1 + " viene prima la data " + ldData2);
-         dataPassata=true;
-        }
-      
-    return dataPassata;
-
-}
+        Boolean dataPassata=false;
+    
+       if (firstDate.isEqual(secondDate))
+           // System.out.println("Le date sono uguali");
+           dataPassata=false;
+       else if (firstDate.isBefore(secondDate))
+            //System.out.println("La data:" + ldData1 + " viene dopo la data " + ldData2);
+            dataPassata=false;
+       else if (firstDate.isAfter(secondDate)){
+            dataPassata=true;
+           }
+       return dataPassata;
+    
+    }
 
 //getters and setters
     public String getTitolo() {
@@ -73,26 +64,24 @@ public class Evento {
          
        if(titolo.trim().isEmpty()){
           //System.out.println("Per favore inserisci un titolo per l'evento.");
-          throw new Exception("Per favore inserisci un titolo per l'evento.");
+          throw new IllegalArgumentException("Per favore inserisci un titolo per l'evento.");
        }else
            this.titolo=titolo;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) throws Exception {
+    public void setData(LocalDate data) throws Exception {
        
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDate = LocalDate.now();                                           
-        String nowDate = localDate.format(dateFormatter);  
-   
-        if(compareDates(data,nowDate)){
+        LocalDate nowDate = LocalDate.now();                                           
+     
+        if(dataPassata(nowDate,data)){
             //System.out.println("La nuova data dell'evento: " + data + " è una data passata e l'evento non può crearsi.");
-            throw new Exception("La nuova data dell'evento è una data passata, l'evento non si può modificare.");
+            throw new IllegalArgumentException("La nuova data dell'evento è una data passata, l'evento non si può modificare.");
         }else {
-            //solo se la nuova data è una data futura di oggi
+            //solo se la nuova data è una data prossima
             this.data = data;
             //System.out.println("La nuova data dell'evento: " + data + " è una data futura, l'evento può avere luogo.");
         }
@@ -119,32 +108,28 @@ public class Evento {
     }
 
    public void prenota() throws Exception{
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDate = LocalDate.now();                                           
-        String nowDate = localDate.format(dateFormatter);  
-
-        String eventDate=this.getData();
+        
+        LocalDate nowDate = LocalDate.now();                                           
+        LocalDate eventDate=this.getData();
 
         int postiDisponibili=this.getPostiTotale()-this.getPostiPrenotati();
 
-        if (compareDates(nowDate, eventDate) && postiDisponibili>0 ){
+        if (dataPassata(nowDate, eventDate) && postiDisponibili>0 ){
             this.postiPrenotati++;
         }else {
-            throw new Exception("Non si può aggiungere un nuovo posto di prenotazione");
+            throw new IllegalArgumentException("Non si può aggiungere un nuovo posto di prenotazione");
         }
    }
 
    public void disdici() throws  Exception{
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDate = LocalDate.now();                                           
-        String nowDate = localDate.format(dateFormatter);  
+       
+        LocalDate nowDate = LocalDate.now();             
+        LocalDate eventDate=this.getData();
 
-        String eventDate=this.getData();
-
-        if (compareDates(nowDate, eventDate) && this.getPostiPrenotati()>0 ){
+        if (dataPassata(nowDate, eventDate) && this.getPostiPrenotati()>0 ){
             this.postiPrenotati--;
         }else {
-            throw new Exception("Non si può disdire nessun posto prenotato");
+            throw new IllegalArgumentException("Non si può disdire nessun posto prenotato");
         }   
     }
     
