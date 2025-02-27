@@ -29,7 +29,12 @@ public class Concerto extends Evento {
     }
 
     public void setPrezzo(double prezzo) {
-        this.prezzo = prezzo;
+    
+            if (prezzo>0){
+                this.prezzo = prezzo;
+            } else
+                throw new IllegalArgumentException("Il prezzo per il concerto deve essere maggiore di 0 !");
+            
     }
 
     public String dataFormattata(){
