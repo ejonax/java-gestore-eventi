@@ -20,7 +20,7 @@ public class Evento {
        }else this.titolo=titolo;
     
         //data
-       if(dataPassata(nowDate,data)){
+       if(dataPassata(data,nowDate)){
              //System.out.println("La data dell'evento: " + this.data + " è una data passata e l'evento non può crearsi.");
              throw new IllegalArgumentException("La data inserita è una data passata e l'evento non può crearsi.");
        }else this.data=data;
@@ -38,7 +38,7 @@ public class Evento {
     
     }
 
-    static Boolean dataPassata(LocalDate firstDate, LocalDate secondDate){
+    static Boolean dataPassata(LocalDate secondDate, LocalDate firstDate){
     
         Boolean dataPassata=false;
     
@@ -77,7 +77,7 @@ public class Evento {
        
         LocalDate nowDate = LocalDate.now();                                           
      
-        if(dataPassata(nowDate,data)){
+        if(dataPassata(data,nowDate)){
             //System.out.println("La nuova data dell'evento: " + data + " è una data passata e l'evento non può crearsi.");
             throw new IllegalArgumentException("La nuova data dell'evento è una data passata, l'evento non si può modificare.");
         }else {

@@ -45,7 +45,7 @@ public class UsaEvento {
         System.out.println(eventoPrimo.toString());
         //Evento eventoPrimo=new Evento("Matrimonio", "22/12/2025", 250);
 
-
+        /* 
         eventoPrimo.setTitolo("Battesimo");//cambia
         System.out.println(eventoPrimo.toString());
 
@@ -59,6 +59,8 @@ public class UsaEvento {
        //eventoPrimo.setData(LocalDate.parse("22/11/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         System.out.println(eventoPrimo.toString());//non cambia, throws Exception
 
+        */
+
           /* STEP 2 - points 2., 3. */
     
         System.out.println("Per favore inserisci quanti posti vuoi prenotare per l'evento creato");
@@ -71,6 +73,7 @@ public class UsaEvento {
         }else {
 
             int postiChePossonoEsserePrenotati=eventoPrimo.getPostiTotale()-eventoPrimo.getPostiPrenotati();
+           
             if (postiPerPrenotare<=postiChePossonoEsserePrenotati){
                 for (int i = 0; i < postiPerPrenotare; i++) {
                     eventoPrimo.prenota(); 

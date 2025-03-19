@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 public class Concerto extends Evento {
     private LocalTime ora;
     private double prezzo;
-    private String dataCompleta;
 
     public Concerto(LocalTime ora, double prezzo, String titolo, LocalDate data, int postiTotale) throws Exception {
         super(titolo, data, postiTotale);
